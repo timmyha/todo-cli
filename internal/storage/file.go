@@ -6,7 +6,6 @@ import (
 	"strings"
 	"time"
 	"fmt"
-	"io"
 )
 
 const (
@@ -116,10 +115,26 @@ func ViewCompletedTasks() {
 	}
 	defer file.Close()
 
-	// Print file contents
-	_, err = io.Copy(os.Stdout, file)
-	if err != nil {
+	// Read all lines from the file
+	var lines []string
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+
+	if err := scanner.Err(); err != nil {
 		fmt.Println("Error reading completed.md:", err)
+		return
+	}
+
+	// Get the last 10 lines, or all lines if there are less than 10
+	start := len(lines) - 10
+	if start < 0 {
+		start = 0
+	}
+
+	// Print the last 10 completed tasks
+	for _, line := range lines[start:] {
+		fmt.Println(line)
 	}
 }
-

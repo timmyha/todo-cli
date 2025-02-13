@@ -5,12 +5,11 @@ import (
 	"os"
 
 	"github.com/timmyha/todo-cli/cmd"
-	"github.com/timmyha/todo-cli/internal/storage"
 )
 
 func main() {
 	if len(os.Args) < 2 {
-		cmd.OpenEditor()
+		cmd.OpenEditor("")
 		return
 	}
 
@@ -28,7 +27,7 @@ func main() {
 		}
 		cmd.CompleteTask(os.Args[2])
 	case "completed": // Ensure this case exists
-		storage.ViewCompletedTasks()
+		cmd.OpenEditor("completed")	
 	default:
 		fmt.Println("Unknown command. Use `add`, `complete`, or `completed`.")
 	}
