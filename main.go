@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/timmyha/todo-cli/cmd"
+	"github.com/timmyha/todo-cli/internal/storage"
 )
 
 func main() {
@@ -26,8 +27,10 @@ func main() {
 			return
 		}
 		cmd.CompleteTask(os.Args[2])
+	case "completed": // Ensure this case exists
+		storage.ViewCompletedTasks()
 	default:
-		fmt.Println("Unknown command. Use `add` or `complete`.")
+		fmt.Println("Unknown command. Use `add`, `complete`, or `completed`.")
 	}
 }
 

@@ -2,10 +2,11 @@ package storage
 
 import (
 	"bufio"
-	"fmt"
 	"os"
 	"strings"
 	"time"
+	"fmt"
+	"io"
 )
 
 const (
@@ -101,5 +102,24 @@ func MarkTaskCompleted(day, task string) error {
 
 	_, err = file.WriteString(completedTask + "\n")
 	return err
+}
+
+func ViewCompletedTasks() {
+	file, err := os.Open(completedFile)
+	if err != nil {
+		if os.IsNotExist(err) {
+			fmt.Println("No completed tasks found.")
+			return
+		}
+		fmt.Println("Error opening completed.md:", err)
+		return
+	}
+	defer file.Close()
+
+	// Print file contents
+	_, err = io.Copy(os.Stdout, file)
+	if err != nil {
+		fmt.Println("Error reading completed.md:", err)
+	}
 }
 
