@@ -5,7 +5,6 @@ import (
 	"os"
 	"strings"
 	"time"
-	"fmt"
 )
 
 const (
@@ -101,40 +100,4 @@ func MarkTaskCompleted(day, task string) error {
 
 	_, err = file.WriteString(completedTask + "\n")
 	return err
-}
-
-func ViewCompletedTasks() {
-	file, err := os.Open(completedFile)
-	if err != nil {
-		if os.IsNotExist(err) {
-			fmt.Println("No completed tasks found.")
-			return
-		}
-		fmt.Println("Error opening completed.md:", err)
-		return
-	}
-	defer file.Close()
-
-	// Read all lines from the file
-	var lines []string
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
-	}
-
-	if err := scanner.Err(); err != nil {
-		fmt.Println("Error reading completed.md:", err)
-		return
-	}
-
-	// Get the last 10 lines, or all lines if there are less than 10
-	start := len(lines) - 10
-	if start < 0 {
-		start = 0
-	}
-
-	// Print the last 10 completed tasks
-	for _, line := range lines[start:] {
-		fmt.Println(line)
-	}
 }

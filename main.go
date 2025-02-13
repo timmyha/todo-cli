@@ -26,7 +26,7 @@ func main() {
 			return
 		}
 		cmd.CompleteTask(os.Args[2])
-	case "completed": // Ensure this case exists
+	case "completed":
 		cmd.OpenEditor("completed")	
 	default:
 		fmt.Println("Unknown command. Use `add`, `complete`, or `completed`.")

@@ -8,7 +8,6 @@ import (
 func SelectTask(tasks []string) string {
 	var selectedTask string
 
-	// Convert tasks into options manually
 	options := []huh.Option[string]{}
 	for _, task := range tasks {
 		options = append(options, huh.NewOption(task, task))
